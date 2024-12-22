@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+
+<head>
+  {{> head}}
+  <style>
+    .container {
+      max-width: 1000px;
+    }
+  </style>
+</head>
+
+<body>
+  {{> nav}}
+
+  <div class="container">
+
+    <div id="forms-and-input" class="card fluid">
+      <h2 class="section double-padded">OpenAI Settings</h2>
+      <div class="section">
+        <p>To get things set up we need to know your OpenAI API key and the chat model you want to use.</p>
+      </div>
+      <form method="post">
+        <fieldset>
+          <legend class="doc">OpenAI Settings</legend>
+
+          <div class="row responsive-label">
+            <div class="col-sm-12 col-md-3"><label for="apiKey" class="doc">OpenAI API key</label></div>
+            <div class="col-sm-12 col-md"><input type="text" placeholder="OpenAI API key" id="apiKey" name="apiKey"
+                style="width:85%;" class="doc" value="{{openai.API_KEY}}"></div>
+          </div>
+
+          <div class="row responsive-label">
+            <div class="col-sm-12 col-md-3"><label for="chatModel" class="doc">Chat model</label></div>
+            <div class="col-sm-12 col-md"><input type="text" placeholder="Chat model" id="chatModel" name="chatModel"
+                style="width:85%;" class="doc" value="{{openai.CHAT_MODEL}}"></div>
+          </div>
+
+          <div class="row">
+            <button type="submit">Save</button>
+          </div>
+        </fieldset>
+      </form>
+    </div>
+
+  </div>
+
+  {{> footer}}
+</body>
+
+</html>

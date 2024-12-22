@@ -1,0 +1,37 @@
+{
+  "name": "mystic-kitty",
+  "version": "0.1.0",
+  "description": "A version of Kitty who is very much about the wheel of the year",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "prestart": "check-node-version --node $(cat .nvmrc) || exit 1",
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://revdancatt@github.com/revdancatt/mystic-kitty.git"
+  },
+  "keywords": [
+    "ai",
+    "revdancatt",
+    "mystic",
+    "wheelofyear"
+  ],
+  "author": "revdancatt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/revdancatt/mystic-kitty/issues"
+  },
+  "homepage": "https://github.com/revdancatt/mystic-kitty#readme",
+  "devDependencies": {
+    "standard": "^17.1.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-handlebars": "^8.0.1",
+    "mini.css": "^3.0.1"
+  }
+}
