@@ -6,6 +6,20 @@ export const formatDate = (date) => {
   return `${days[d.getDay()]}, ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`
 }
 
+export const ifEqual = (a, b, options) => {
+  if (a === b) {
+    return options.fn(this)
+  }
+  return options.inverse(this)
+}
+
+export const ifNotEqual = (a, b, options) => {
+  if (a !== b) {
+    return options.fn(this)
+  }
+  return options.inverse(this)
+}
+
 export const ifIndexDivisibleBy = (index, divisor, options) => {
   if ((index + 1) % divisor === 0 && index > 0) {
     return options.fn(this)

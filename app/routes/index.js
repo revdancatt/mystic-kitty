@@ -45,6 +45,8 @@ router.use(function (req, res, next) {
 
 router.get('/', main.index)
 
+router.get('/admin', admin.index)
+router.post('/admin', admin.index)
 router.get('/admin/askForOpenAIAPI', admin.askForOpenAIAPI)
 router.post('/admin/askForOpenAIAPI', admin.askForOpenAIAPI)
 

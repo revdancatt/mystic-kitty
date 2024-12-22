@@ -16,7 +16,24 @@
 
   <div class="container">
     <h1>Mystic Kitty <small>Helping you through the year</small></h1>
-    <p>Today is today</p>
+    <p>
+      {{currentDateTime}}
+    </p>
+    {{#if solsticesAndEquinoxes}}
+      <p>
+        {{solsticesAndEquinoxes.mostRecentEvent.phrase}}
+      </p>
+      <p>
+        {{solsticesAndEquinoxes.nextEvent.phrase}}
+      </p>
+    {{/if}}
+    <p>
+      🌄 The sun rises at {{sunInfo.sunrise}}<br />
+      🌅 And sets at {{sunInfo.sunset}}<br />
+      {{moonInfo.phase}}<br />
+      {{moonInfo.nextNewMoon}}<br />
+      {{moonInfo.nextFullMoon}}
+    </p>
   </div>
 
   {{> footer}}

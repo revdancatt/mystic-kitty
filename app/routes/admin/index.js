@@ -3,7 +3,7 @@ import path from 'path'
 
 export function index (req, res) {
   // If we have openai in the global.data then pass them into the template
-  req.templateValues.openai = global.data.openai
+  if (global.data.openai) req.templateValues.openai = global.data.openai
 
   return res.render('admin/index', req.templateValues)
 }
@@ -27,14 +27,20 @@ export function askForOpenAIAPI (req, res) {
       fs.writeFileSync(dataPath, JSON.stringify(dataObj, null, 2))
       // Put all the data into the global data object
       global.data = dataObj
+
+      // If we've been passed redirect on the url as a url params then we want to console log it
+      if (req.query.redirect) {
+        if (req.query.redirect === 'admin') {
+          return res.redirect('/admin')
+        }
+      }
+
       return res.redirect('/')
     }
   }
 
   // If we have openai in the global.data then pass them into the template
-  if (global.data.openai) {
-    req.templateValues.openai = global.data.openai
-  }
+  if (global.data.openai) req.templateValues.openai = global.data.openai
 
   return res.render('admin/askForOpenAIAPI', req.templateValues)
 }
