@@ -13,6 +13,14 @@ import * as helpers from './app/helpers/index.js'
 const __dirname = path.dirname(new URL(import.meta.url).pathname)
 fs.writeFileSync('pid.txt', process.pid.toString())
 
+// Check if .env file exists and has PORT defined
+if (!process.env.PORT) {
+  console.error('\nError: .env file is missing or PORT is not defined')
+  console.error('Please create a .env file with PORT=nnnn where nnnn is the port number')
+  console.error('')
+  process.exit(1)
+}
+
 const app = express()
 const hbs = exphbs.create({
   extname: '.html',
