@@ -204,6 +204,16 @@ export const index = async (req, res) => {
       })
     }
 
+    // Check to see if there's a notes file for today and if so add it to the prompt
+    if (fs.existsSync(todaysNotesFile)) {
+      messages.push({
+        role: 'user',
+        content: 'VERY IMPORTANT: The note made by the user for you, Kitty, to take into account when giving advice for today was:\n\n' + fs.readFileSync(todaysNotesFile, 'utf8')
+      })
+    }
+
+    console.log(messages)
+
     // Now tag on the actual request for the advice for today
     messages.push({
       role: 'user',
