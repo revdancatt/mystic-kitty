@@ -149,7 +149,7 @@ export const index = async (req, res) => {
   prompts.tail = customPrompt.prompt_tail
 
   if (!fs.existsSync(todaysAdviceFile) || req.query.tryagain === 'true') {
-    console.log('About to call the AI...')
+    console.log('\nAbout to call the AI...')
     // If the file doesn't exist then we need to do the whole build up a prompt for Kitty the AI
     const messages = []
 
@@ -208,7 +208,8 @@ export const index = async (req, res) => {
 
     const gptResponse = await chatgpt.gptCompletion(messages)
 
-    const tokenOutputCost = await chatgpt.getTokenOutputCost(gptResponse.text)
+    const tokenOutputCount = await chatgpt.getTokenCount(gptResponse.text)
+    const tokenOutputCost = await chatgpt.getTokenOutputCost(tokenOutputCount)
     console.log('Token output cost:', tokenOutputCost)
 
     if (gptResponse && gptResponse.text) {

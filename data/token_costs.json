@@ -7,12 +7,12 @@
     "input": 2.50,
     "output": 10.00
   },
-  "o1": {
-    "input": 15.00,
-    "output": 60.00
+  "gpt-4-turbo": {
+    "input": 10.00,
+    "output": 30.00
   },
-  "o1-mini": {
-    "input": 3.00,
-    "output": 12.00
+  "gpt-4": {
+    "input": 30.00,
+    "output": 60.00
   }
 }

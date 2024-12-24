@@ -36,33 +36,48 @@ export const gptCompletion = async (messages, model = global.data.openai.CHAT_MO
       model
     }
   } catch (err) {
-    return null
+    return {
+      text: '',
+      model
+    }
   }
 }
 
 export const getTokenCount = async (messages) => {
   const count = await encode(JSON.stringify(messages)).length
+  // console.log('Token count: ', count)
   return count
 }
 
-// Costs per million tokens
-// Load in the token costs from the data/token_costs.json file
-const costs = JSON.parse(fs.readFileSync('data/token_costs.json', 'utf8'))
-
 // Work out the cost of the tokens that we are sending to gpt
 // based on 'gpt-4' costs
-export const getTokenInputCost = async (messages, version = global.data.openai.CHAT_MODEL) => {
+export const getTokenInputCost = async (tokenCount, model = global.data.openai.CHAT_MODEL) => {
+  // Costs per million tokens
+  // Load in the token costs from the data/token_costs.json file
+  const costs = JSON.parse(fs.readFileSync('data/token_costs.json', 'utf8'))
+
   // If the model is not in the costs object, return 0
-  if (!costs[version]) return 0
-  const tokenCost = await getTokenCount(messages) / 1000000 * costs[version].input
+  // If the model is not in the costs object, return 0
+  if (!costs[model]) return 0
+
+  const tokenCost = tokenCount / 1000000 * costs[model].input
+  let tokenCostFixed = tokenCost.toFixed(2)
+  if (tokenCostFixed === '0.00') tokenCostFixed = '0.01'
   // We want to format this as a dollar amount
-  return `${tokenCost.toFixed(2)}`
+  return `$${tokenCostFixed}`
 }
 
-export const getTokenOutputCost = async (messages, version = global.data.openai.CHAT_MODEL) => {
+export const getTokenOutputCost = async (tokenCount, model = global.data.openai.CHAT_MODEL) => {
+  // Costs per million tokens
+  // Load in the token costs from the data/token_costs.json file
+  const costs = JSON.parse(fs.readFileSync('data/token_costs.json', 'utf8'))
+
   // If the model is not in the costs object, return 0
-  if (!costs[version]) return 0
-  const tokenCost = await getTokenCount(messages) / 1000000 * costs[version].output
+  if (!costs[model]) return 0
+
+  const tokenCost = tokenCount / 1000000 * costs[model].output
+  let tokenCostFixed = tokenCost.toFixed(2)
+  if (tokenCostFixed === '0.00') tokenCostFixed = '0.01'
   // We want to format this as a dollar amount
-  return `${tokenCost.toFixed(2)}`
+  return `$${tokenCostFixed}`
 }
