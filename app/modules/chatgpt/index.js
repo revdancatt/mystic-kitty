@@ -1,3 +1,4 @@
+import fs from 'fs'
 import axios from 'axios'
 import { encode } from 'gpt-3-encoder'
 
@@ -45,21 +46,22 @@ export const getTokenCount = async (messages) => {
 }
 
 // Costs per million tokens
-const costs = {
-  'gpt-4o': {
-    input: 2.5,
-    output: 10
-  }
-}
+// Load in the token costs from the data/token_costs.json file
+const costs = JSON.parse(fs.readFileSync('data/token_costs.json', 'utf8'))
+
 // Work out the cost of the tokens that we are sending to gpt
 // based on 'gpt-4' costs
 export const getTokenInputCost = async (messages, version = global.data.openai.CHAT_MODEL) => {
+  // If the model is not in the costs object, return 0
+  if (!costs[version]) return 0
   const tokenCost = await getTokenCount(messages) / 1000000 * costs[version].input
   // We want to format this as a dollar amount
   return `${tokenCost.toFixed(2)}`
 }
 
 export const getTokenOutputCost = async (messages, version = global.data.openai.CHAT_MODEL) => {
+  // If the model is not in the costs object, return 0
+  if (!costs[version]) return 0
   const tokenCost = await getTokenCount(messages) / 1000000 * costs[version].output
   // We want to format this as a dollar amount
   return `${tokenCost.toFixed(2)}`
