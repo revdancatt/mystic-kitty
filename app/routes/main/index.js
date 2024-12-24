@@ -223,6 +223,11 @@ export const index = async (req, res) => {
       content: prompts.tail
     })
 
+    messages.push({
+      role: 'user',
+      content: 'VERY IMPORTANT: Please respond in markdown format, and only respond with the markdown, no other text or comments, do not add a leading "```markdown", "```" or a trailing "```" to the response.'
+    })
+
     const chatgpt = await import('../../modules/chatgpt/index.js')
 
     const tokenCount = await chatgpt.getTokenCount(messages)
