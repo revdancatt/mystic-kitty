@@ -212,8 +212,6 @@ export const index = async (req, res) => {
       })
     }
 
-    console.log(messages)
-
     // Now tag on the actual request for the advice for today
     messages.push({
       role: 'user',
