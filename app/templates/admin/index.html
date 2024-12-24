@@ -3,9 +3,19 @@
 
 <head>
   {{> head}}
+  <title>🔮 Mystic Kitty Admin</title>
   <style>
     .container {
       max-width: 1000px;
+    }
+
+    .alert {
+      background-color: #ffdddd;
+      background: repeating-linear-gradient(45deg,
+          #ffff99,
+          #ffff99 10px,
+          #ffffff 10px,
+          #ffffff 20px);
     }
   </style>
 </head>
@@ -21,27 +31,123 @@
         <p>You can change various settings here if you want.</p>
       </div>
 
-      <form method="post" action="/admin/askForOpenAIAPI?redirect=admin">
+      <form method="post" class="{{#if alertOpenAI}}alert{{/if}}">
         <fieldset>
           <legend class="doc">OpenAI Settings</legend>
 
           <div class="row responsive-label">
             <div class="col-sm-12 col-md-3"><label for="apiKey" class="doc">OpenAI API key</label></div>
-            <div class="col-sm-12 col-md"><input type="text" placeholder="OpenAI API key" id="apiKey" name="apiKey"
-                style="width:85%;" class="doc" value="{{openai.API_KEY}}"></div>
+            <div class="col-sm-12 col-md"><input type="text" required placeholder="OpenAI API key" id="apiKey"
+                name="apiKey" style="width:85%;" class="doc" value="{{openai.API_KEY}}"></div>
           </div>
 
           <div class="row responsive-label">
             <div class="col-sm-12 col-md-3"><label for="chatModel" class="doc">Chat model</label></div>
-            <div class="col-sm-12 col-md"><input type="text" placeholder="Chat model" id="chatModel" name="chatModel"
-                style="width:85%;" class="doc" value="{{openai.CHAT_MODEL}}"></div>
+            <div class="col-sm-12 col-md"><input type="text" required placeholder="Chat model" id="chatModel"
+                name="chatModel" style="width:85%;" class="doc" value="{{openai.CHAT_MODEL}}"></div>
           </div>
-
           <div class="row">
-            <button type="submit">Save</button>
+            <button type="submit" name="action" value="openAIStuff">Save</button>
           </div>
         </fieldset>
       </form>
+
+      <p style="margin-top: 4rem;" id="latlong">
+        For sunrise and sunset stuff we need to know <em>roughly</em> where you are. Doesn't need to be your exact
+        location, just the nearest town or city (London is: <strong>51.5074, -0.1278</strong>, New York is:
+        <strong>40.7128, -74.0060</strong>).
+      </p>
+
+      <form method="post" class="{{#if alertLatLong}}alert{{/if}}">
+        <fieldset>
+          <legend class=" doc">Latitude and Longitude</legend>
+          <div class="row responsive-label">
+            <div class="col-sm-12 col-md-3"><label for="apiKey" class="doc">Latitude</label></div>
+            <div class="col-sm-12 col-md"><input type="number" step="0.0000001" min="-90" max="90"
+                placeholder="Latitude" id="latitude" name="latitude" style="width:85%;" class="doc"
+                value="{{latlong.latitude}}" required>
+            </div>
+          </div>
+
+          <div class="row responsive-label">
+            <div class="col-sm-12 col-md-3"><label for="longitude" class="doc">Longitude</label></div>
+            <div class="col-sm-12 col-md"><input type="number" step="0.0000001" min="-180" max="180"
+                placeholder="Longitude" id="longitude" name="longitude" style="width:85%;" class="doc"
+                value="{{latlong.longitude}}" required>
+            </div>
+          </div>
+          <div class="row">
+            <button type="submit" name="action" value="latLongStuff">Save</button>
+          </div>
+        </fieldset>
+      </form>
+
+      <p style="margin-top: 4rem;" id="custom-prompt">
+        This is where you can change the custom prompt, Dan's put his own prompt in there that works well for him,
+        you'll definitely want to change it to suit your own needs.
+      </p>
+      <p>
+        The code will use the prompts in this order: <strong>head</strong>,
+        <code>[day, date, sun, moon &amp; festivals' info]</code>,
+        <code>[the last two weeks worth of given advice]</code>, <strong>shaping</strong>, <strong>tail</strong>. You
+        have controls over the head, shaping and tail, the code automatically adds in the 2nd and 3rd parts.
+      </p>
+
+      <form method="post" class="{{#if alertCustomPrompt}}alert{{/if}}">
+        <fieldset>
+          <legend class=" doc">Custom Prompt</legend>
+
+          <div class="row responsive-label">
+            <div class="col-sm-12 col-md-3"><label for="prompt_head" class="doc">Head</label></div>
+            <div class="col-sm-12 col-md">
+              <textarea id="prompt_head" name="prompt_head" style="width:85%;" class="doc"
+                rows="25">{{customPrompt.prompt_head}}</textarea>
+            </div>
+          </div>
+
+          <div class="row responsive-label">
+            <div class="col-sm-12 col-md-3">&nbsp;</div>
+            <div class="col-sm-12 col-md" style="margin: 2rem 0;">
+              <p>
+                The code will auto insert information about the current day &amp; date, the sun, moon and festival
+                details, the a wrap up the previous two weeks' worth of advice that Kitty has given you between these
+                two parts of the prompt.
+              </p>
+            </div>
+          </div>
+
+          <div class="row responsive-label">
+            <div class="col-sm-12 col-md-3"><label for="prompt_shaping" class="doc">Shaping</label></div>
+            <div class="col-sm-12 col-md">
+              <textarea id="prompt_shaping" name="prompt_shaping" style="width:85%;" class="doc"
+                rows="25">{{customPrompt.prompt_shaping}}</textarea>
+            </div>
+          </div>
+
+          <div class="row responsive-label">
+            <div class="col-sm-12 col-md-3"><label for="prompt_tail" class="doc">Tail</label></div>
+            <div class="col-sm-12 col-md">
+              <textarea id="prompt_tail" name="prompt_tail" style="width:85%;" class="doc"
+                rows="10">{{customPrompt.prompt_tail}}</textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <button type="submit" name="action" value="customPromptStuff">Save</button>
+          </div>
+        </fieldset>
+      </form>
+
+      {{#if allDone}}
+        <p style="margin-top: 2rem">Yay, we have everything we need, you can keep coming back here to tune things over
+          time if you need (in fact I'd suggest this), otherwise <a href="/">go back to the homepage</a>.
+          <strong>Notes:</strong>, as the homepage makes a call to OpenAI when it loads the page may take a while to
+          respond the first time you visit each day.
+        </p>
+        <p style="margin: 2rem 0">
+          <a href="/" class="button primary">Go back to the homepage</a>
+        </p>
+      {{/if}}
     </div>
 
   </div>

@@ -8,6 +8,15 @@
       max-width: 1000px;
       margin: 0 auto;
     }
+
+    strong {
+      display: block;
+      margin: 1em 0;
+    }
+
+    hr {
+      margin: 4em 0;
+    }
   </style>
 </head>
 
@@ -15,25 +24,56 @@
   {{> nav}}
 
   <div class="container">
-    <h1>Mystic Kitty <small>Helping you through the year</small></h1>
+    <h1>🔮 Mystic Kitty <small>Helping you through the year</small></h1>
+    <h3>{{currentDateTime}}</h3>
     <p>
-      {{currentDateTime}}
-    </p>
-    {{#if solsticesAndEquinoxes}}
-      <p>
-        {{solsticesAndEquinoxes.mostRecentEvent.phrase}}
-      </p>
-      <p>
-        {{solsticesAndEquinoxes.nextEvent.phrase}}
-      </p>
-    {{/if}}
-    <p>
+      {{solsticesAndEquinoxes.mostRecentEvent.phrase}}<br />
+      {{solsticesAndEquinoxes.nextEvent.phrase}}<br />
       🌄 The sun rises at {{sunInfo.sunrise}}<br />
       🌅 And sets at {{sunInfo.sunset}}<br />
       {{moonInfo.phase}}<br />
       {{moonInfo.nextNewMoon}}<br />
       {{moonInfo.nextFullMoon}}
     </p>
+
+    <hr />
+
+    {{#if noLatLong}}
+      <h2>Hey we're missing some info <small>Kitty needs to know (roughly) where you are for Sun stuff 😎</small></h2>
+      <p>Please set your latitude and longitude in the <a href="/admin#latlong">admin page</a>.</p>
+      <hr />
+    {{/if}}
+
+    {{#if noCustomPrompt}}
+      <h2>Nearly there! <small>Personalise your prompt</small></h2>
+      <p>Mystic Kitty comes with a default prompt designed for Daniel, it's included as an example but you should head
+        to the <a href="/admin#custom-prompt">admin page</a>, and customise it to your own needs. Then when you come
+        back to this homepage everything should start working.</p>
+      <p>
+        <a href="/admin#custom-prompt" class="button primary">Customise your prompt</a>
+      </p>
+      <hr />
+    {{/if}}
+
+    {{#if showAdvice}}
+      <p>
+        {{{todaysAdvice}}}
+      </p>
+      <p>
+        <a href="/?tryagain=true" class="button primary">Run again</a>
+      </p>
+      <hr />
+      <div class="card" style="max-width: none">
+        <div class="section">
+          <h2>Original markdown format</h2>
+        </div>
+        <div class="section">
+          <pre>
+          {{{todaysAdviceRAW}}}
+          </pre>
+        </div>
+      </div>
+    {{/if}}
   </div>
 
   {{> footer}}

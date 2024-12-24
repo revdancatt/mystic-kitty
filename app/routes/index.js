@@ -29,12 +29,12 @@ router.use(function (req, res, next) {
     global.data = JSON.parse(data)
   }
 
-  // If there's no openai.apiKey and we aren't already at the askForOpenAIAPI page then redirect to that page
+  // If there's no openai.apiKey and we aren't already on the admin page then redirect to that page
   // Check if we have OpenAI API key data
   if (!global.data.openai?.API_KEY) {
     // Skip redirect if we're already on the API key page to avoid infinite loop
-    if (req.path !== '/admin/askForOpenAIAPI') {
-      return res.redirect('/admin/askForOpenAIAPI')
+    if (req.path !== '/admin') {
+      return res.redirect('/admin')
     }
   }
 
@@ -47,7 +47,5 @@ router.get('/', main.index)
 
 router.get('/admin', admin.index)
 router.post('/admin', admin.index)
-router.get('/admin/askForOpenAIAPI', admin.askForOpenAIAPI)
-router.post('/admin/askForOpenAIAPI', admin.askForOpenAIAPI)
 
 export default router
