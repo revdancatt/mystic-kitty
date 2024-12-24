@@ -28,7 +28,7 @@ I ask the API for markdown formatted text back, but how it decides to format tha
 
 # SECRET SAUCE
 
-There are TWO things that I believe make this slightly different form just typing the prompt into ChatGPT.
+There are THREE things that I believe make this slightly different form just typing the prompt into ChatGPT.
 
 First, it automatically adds information about sunrise, sunset, moon phase and festivals into the prompt.
 
@@ -37,6 +37,8 @@ Second, and this is probably more important, it rolls the last two weeks worth o
 Otherwise it would just be like taking a quick narrow daily "stab" at information, which has no view into if it's already told you that information or not, which leads to repeated information (or at least less small repeated information).
 
 The default prompt has also been written for "foreshadow" upcoming stuff. By rolling in recent advice the system can look back at what foreshadowing it has done for the whatever day you may be at.
+
+Finally I _just_ added the ability to add notes for each day, which is mainly a way to inject some additonal prompt information for Kitty over time, they can either be notes or direct instructions (why not both!). For example in my default prompt it says I work in the studio Mon-Fri, but I can drop in a note for Kitty to let her know if I'm doing something different over the next few days. Or to stop her mentioning things, or various other bits of guidance.
 
 # TODO
 
