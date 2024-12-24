@@ -26,6 +26,18 @@ Any text you enter will be submitted to the OpenAI API endpoint.
 
 I ask the API for markdown formatted text back, but how it decides to format that is pretty random so consistence will be variable. Again possibly an easy fix but 🤷‍♂️
 
+# SECRET SAUCE
+
+There are TWO things that I believe make this slightly different form just typing the prompt into ChatGPT.
+
+First, it automatically adds information about sunrise, sunset, moon phase and festivals into the prompt.
+
+Second, and this is probably more important, it rolls the last two weeks worth of previous advice back into the prompt. This is to keep a "rolling context window" going with the advice.
+
+Otherwise it would just be like taking a quick narrow daily "stab" at information, which has no view into if it's already told you that information or not, which leads to repeated information (or at least less small repeated information).
+
+The default prompt has also been written for "foreshadow" upcoming stuff. By rolling in recent advice the system can look back at what foreshadowing it has done for the whatever day you may be at.
+
 # TODO
 
 If I were going to add something the next thing would be an Archives page, that allows you to view older pages.
