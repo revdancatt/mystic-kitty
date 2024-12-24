@@ -53,8 +53,6 @@ const getSunriseAndSunset = (latitude, longitude) => {
 }
 
 export const index = async (req, res) => {
-  // Set timezone to London GMT
-  process.env.TZ = 'Europe/London'
   const solsticesAndEquinoxes = await import('../../modules/solstices-and-equinoxes/index.js')
   const events = solsticesAndEquinoxes.getEvents()
 
