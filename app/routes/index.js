@@ -44,6 +44,7 @@ router.use(function (req, res, next) {
 })
 
 router.get('/', main.index)
+router.post('/', main.index)
 
 router.get('/admin', admin.index)
 router.post('/admin', admin.index)

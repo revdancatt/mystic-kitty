@@ -53,6 +53,21 @@ const getSunriseAndSunset = (latitude, longitude) => {
 }
 
 export const index = async (req, res) => {
+  // Get today's date and time in a human readable format
+  const now = moment()
+  req.templateValues.currentDateTime = now.format('dddd, MMMM Do YYYY [at] h:mm a')
+
+  const notesDir = path.join(__dirname, '../../../notes')
+  // If it doesn't exist create it
+  if (!fs.existsSync(notesDir)) fs.mkdirSync(notesDir, { recursive: true })
+  const todaysNotesFile = path.join(notesDir, `${now.format('YYYY-MM-DD')}.txt`)
+
+  // If we've been POSTed to and we have some notes then save them and redirect back to the main page
+  if (req.method === 'POST' && req.body.notes) {
+    fs.writeFileSync(todaysNotesFile, req.body.notes, 'utf8')
+    return res.redirect('/')
+  }
+
   const solsticesAndEquinoxes = await import('../../modules/solstices-and-equinoxes/index.js')
   const events = solsticesAndEquinoxes.getEvents()
 
@@ -125,10 +140,6 @@ export const index = async (req, res) => {
   const sunInfo = getSunriseAndSunset(52.7079469, -2.7545193)
   req.templateValues.sunInfo = sunInfo
 
-  // Get today's date and time in a human readable format
-  const now = moment()
-  req.templateValues.currentDateTime = now.format('dddd, MMMM Do YYYY [at] h:mm a')
-
   const adviceDir = path.join(__dirname, '../../../advice')
   // If it doesn't exist create it
   if (!fs.existsSync(adviceDir)) fs.mkdirSync(adviceDir, { recursive: true })
@@ -176,14 +187,19 @@ export const index = async (req, res) => {
       // Loop through the advice files and add them to the pastAdvice string
       for (const file of adviceFiles) {
         pastAdvice += '\n\nThe advice for ' + file.replace('.md', '') + ' (YYYY-MM-DD format, pay attention) was:\n\n' + fs.readFileSync(path.join(adviceDir, file), 'utf8')
+        // Check to see if there's a notes file for this day and if so add it to the pastAdvice string
+        const notesFile = path.join(notesDir, file.replace('.md', '.txt'))
+        if (fs.existsSync(notesFile)) {
+          pastAdvice += '\n\nThe notes made by the user for you, Kitty, to take into account when giving advice on this day were:\n\n' + fs.readFileSync(notesFile, 'utf8')
+        }
       }
       messages.push({
         role: 'user',
-        content: `This is the advice you gave for the past ${adviceFiles.length} days, from most recent to oldest...
+        content: `This is the advice (and any notes from the user that go along with ityou gave for the past ${adviceFiles.length} days, from most recent to oldest...
         
         ${pastAdvice}
         
-        Please take this into account when giving advice for today, so we can keep track of the flow of advice already given and the context it was given in, (and to help reduce too much repetition).
+        Please take this into account when giving advice for today, so we can keep track of the flow of advice already given and the context it was given in, (and to help reduce too much repetition). You MUST pay particular attention to the notes from the user, and take it into account the best you can (if it seems applicable). Think of the previous advice as context, and the notes as instructions.
         `
       })
     }
@@ -226,6 +242,11 @@ export const index = async (req, res) => {
 
   req.templateValues.todaysAdvice = marked.parse(todaysAdvice)
   req.templateValues.todaysAdviceRAW = todaysAdvice
+
+  if (fs.existsSync(todaysNotesFile)) {
+    const todaysNotes = fs.readFileSync(todaysNotesFile, 'utf8')
+    req.templateValues.todaysNotes = todaysNotes
+  }
 
   // Load in the contents of the index.md file which lives in the same directory as this file
   return res.render('main/index', req.templateValues)

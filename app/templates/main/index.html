@@ -62,6 +62,30 @@
       <p>
         <a href="/?tryagain=true" class="button primary">Run again</a>
       </p>
+      <h2>Notes</h2>
+      <p>
+        You can add some notes here which will get fed back into future advice prompts for the next two weeks (and today
+        if you decide to run it again). Think of it as telling Kitty what you're up to, and what you're thinking about,
+        and things you want her to keep in mind for the near future.
+      </p>
+      <p>
+        She may not use all of the notes, so if there's anything important you want her to know then try adding
+        "IMPORTANT:" before it, that may help (but is not guaranteed).
+      </p>
+      <form method="post">
+        <div class="col-sm-12 col-md">
+          <textarea id="notes" name="notes" style="width:99%;" class="doc" rows="25">{{todaysNotes}}</textarea>
+        </div>
+        <p>
+          <button type="submit" class="button primary">Save notes</button>
+        </p>
+        <p>
+          <small>*Anything to write in the notes will be sent to the OpenAI API, they (say they) don't use it for
+            training, but you know I'd avoid putting in people's addresses, phone numbers, etc.</small>
+        </p>
+      </form>
+      </p>
+
       <hr />
       <div class="card" style="max-width: none">
         <div class="section">
