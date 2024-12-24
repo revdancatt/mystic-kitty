@@ -231,6 +231,9 @@ export const index = async (req, res) => {
     console.log('Token input cost:', tokenCost)
 
     const gptResponse = await chatgpt.gptCompletion(messages)
+    if (gptResponse.text) {
+      gptResponse.text = gptResponse.text.replace(/```markdown/g, '').replace(/```/g, '')
+    }
 
     const tokenOutputCount = await chatgpt.getTokenCount(gptResponse.text)
     const tokenOutputCost = await chatgpt.getTokenOutputCost(tokenOutputCount)
