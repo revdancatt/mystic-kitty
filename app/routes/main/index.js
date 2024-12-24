@@ -190,12 +190,12 @@ export const index = async (req, res) => {
         // Check to see if there's a notes file for this day and if so add it to the pastAdvice string
         const notesFile = path.join(notesDir, file.replace('.md', '.txt'))
         if (fs.existsSync(notesFile)) {
-          pastAdvice += '\n\nThe notes made by the user for you, Kitty, to take into account when giving advice on this day were:\n\n' + fs.readFileSync(notesFile, 'utf8')
+          pastAdvice += '\n\nThere were VERY IMPORTANT notes made by the user for you, Kitty, to take into account when giving advice on this day were, please pay CLOSE attention to them:\n\n' + fs.readFileSync(notesFile, 'utf8')
         }
       }
       messages.push({
         role: 'user',
-        content: `This is the advice (and any notes from the user that go along with ityou gave for the past ${adviceFiles.length} days, from most recent to oldest...
+        content: `This is the advice (and any notes from the user that go along with it) you gave for the past ${adviceFiles.length} days, from most recent to oldest...
         
         ${pastAdvice}
         
