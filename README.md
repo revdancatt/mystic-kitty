@@ -31,7 +31,7 @@ In your terminal window change into the folder and run...
 
 `npm install`
 
-Then create a `.env` file (or rename `.env.txt` to `.env`), and make sure it has `PORT=nnnn` where `nnnn` is the port number you want it to run on, I use `6789`
+Then create a `.env` file (or copy `.env.txt` to `.env` with `cp .env.txt .env`), and make sure it has `PORT=nnnn` where `nnnn` is the port number you want it to run on, I use `6789`
 
 Next; `npm start` to spin up the webserver.
 
