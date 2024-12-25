@@ -50,4 +50,6 @@ app.use((request, response) => {
   response.status(404).render('static/404')
 })
 console.log(`Server running on port ${process.env.PORT}`)
+console.log(`http://localhost:${process.env.PORT}/`)
+console.log()
 http.createServer(app).listen(process.env.PORT)
