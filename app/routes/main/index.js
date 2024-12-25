@@ -44,8 +44,8 @@ const getNextFullMoon = (date) => {
 
 const getSunriseAndSunset = (latitude, longitude) => {
   const times = SunCalc.getTimes(new Date(), Number(latitude.toFixed(1)), Number(longitude.toFixed(1)))
-  const sunrise = times.sunrise.getHours() + ':' + times.sunrise.getMinutes()
-  const sunset = times.sunset.getHours() + ':' + times.sunset.getMinutes()
+  const sunrise = times.sunrise.getHours() + ':' + times.sunrise.getMinutes().toString().padStart(2, '0')
+  const sunset = times.sunset.getHours() + ':' + times.sunset.getMinutes().toString().padStart(2, '0')
   return {
     sunrise,
     sunset
