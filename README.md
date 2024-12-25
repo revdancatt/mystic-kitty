@@ -14,6 +14,29 @@ An admin page allows you to tune the prompts used so you can customise it to you
 
 ![Admin Page](./imgs/adminpage.png)
 
+# REQUIREMENTS
+
+* A pretty recent version of nodejs, I'm using v22.12.0
+* npm
+* nvm if you're feeling fancy
+* An OpenAI API key
+* Your rough latitude and longitude
+* Some good will
+
+# INSTALLATION
+
+Clone the repo
+
+In your terminal window change into the folder and run...
+
+`npm install`
+
+Then create a `.env` file (or rename `.env.txt` to `.env`), and make sure it has `PORT=nnnn` where `nnnn` is the port number you want it to run on, I use `6789`
+
+Next; `npm start` to spin up the webserver.
+
+Visit http://localhost:6789 (or whatever you set the PORT number to be), and you'll be presented with an admin page to add your OpenAI API key, select which model of chatGPT to use (I'm using 'gpt-4o') and hit save. The page will bring you back to enter your rough latitude and longitude and then fianlly modify the prompt that'll be used so you can change it to suit you better.
+
 # NOTES
 
 I designed this for personal use and the prompts (and other stuff) were hardcoded. Normally I'd just run this as a purely terminal tool, but to make it a little more 'public facing', and as an interesting exercise, I turned it into a simple web service instead. I figured other people may find it interesting.
@@ -45,26 +68,3 @@ Finally I _just_ added the ability to add notes for each day, which is mainly a 
 If I were going to add something the next thing would be an Archives page, that allows you to view older pages.
 
 Instead the advice is stored in the `/advice` folder, you'll figure it out. 
-
-# REQUIREMENTS
-
-* A pretty recent version of nodejs, I'm using v22.12.0
-* npm
-* nvm if you're feeling fancy
-* An OpenAI API key
-* Your rough latitude and longitude
-* Some good will
-
-# INSTALLATION
-
-Clone the repo
-
-In your terminal window change into the folder and run...
-
-`npm install`
-
-Then create a `.env` file (or rename `.env.txt` to `.env`), and make sure it has `PORT=nnnn` where `nnnn` is the port number you want it to run on, I use `6789`
-
-Next; `npm start` to spin up the webserver.
-
-Visit http://localhost:6789 (or whatever you set the PORT number to be), and you'll be presented with an admin page to add your OpenAI API key, select which model of chatGPT to use (I'm using 'gpt-4o') and hit save. The page will bring you back to enter your rough latitude and longitude and then fianlly modify the prompt that'll be used so you can change it to suit you better.
